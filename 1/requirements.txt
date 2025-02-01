@@ -1,0 +1,6 @@
+numpy
+matplotlib
+micrograd
+ipykernel>=6.0
+pyzmq>=25.1.2
+jupyter-client>=8.0
