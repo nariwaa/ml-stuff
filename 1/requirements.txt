@@ -1,4 +1,5 @@
 numpy
+graphviz
 matplotlib
 micrograd
 ipykernel>=6.0
