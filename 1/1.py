@@ -19,6 +19,7 @@ f(x+h)
 class Value:
     def __init__(self, data, _children=(), _op='', label=''):
         self.data = data
+        self.grade = 0
         self._prev = set(_children)
         self._op = _op
         self.label= label
@@ -32,25 +33,15 @@ class Value:
         out = Value(self.data * other.data, (self, other), '*')
         return out
 
-a = Value(2.0)
-b = Value(-3.0)
-c = Value(727)
-
-# will internally call the __add__ fuction, do it will be self = a.data and other = b.data
-print(a+b)
-
-# same goes for mul
-print(a*b)
-print(c*b)
-
-print(f"\n")
-d = (a*b+c)
+a = Value(2.0, label ='a')
+b = Value(-3.0, label ='b')
+c = Value(727, label = 'c')
+d = (a*b+c) ; d.label='d'
+k = Value(-2.0, label = 'k')
+L = d*k ; L.label='L'
 print(d)
-# %% Cell
-d._prev
-# %% Cell
-d._op
-# %% Cell
+
+# %%
 from graphviz import Digraph
 
 def trace(root):
@@ -71,7 +62,7 @@ def draw_dot(root):
     for n in nodes:
         uid = str(id(n))
         # for any value in the graph, create a rectangular ('record') node for it
-        dot.node(name=uid, label="{ %s | data %.4f }" % (n.label, n.data), shape='record')
+        dot.node(name=uid, label="{ %s | data %.4f | grade %.4f }" % (n.label, n.data, n.grade), shape='record')
         if n._op:
             # if this value is a result of some operation, create an op node for it
             dot.node(name=uid + n._op, label=n._op)
@@ -83,6 +74,8 @@ def draw_dot(root):
         dot.edge(str(id(n1)), str(id(n2)) + n2._op)
 
     return dot
-
 # %% Cell
-draw_dot(c)
+dot = draw_dot(L)
+dot.render('graph', format='svg')
+# %%
+L.grade=1

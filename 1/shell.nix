@@ -22,6 +22,7 @@ pkgs.mkShell {
     python
     pythonPackages.pip
     pythonPackages.virtualenv
+    pkgs.graphviz
     pkgs.zeromq
     pkgs.gcc
     pkgs.zlib
